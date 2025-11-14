@@ -1,0 +1,167 @@
+/* Custom CSS for Soft Red & Minimalist Professional Portfolio */
+
+/* --- Warna Skema ---
+ * Primer (Dark Soft): #C2185B (Dark Pink/Dusty Rose)
+ * Aksen (Light Soft): #FFCDD2 (Light Pink Salmon)
+ * Background: #FAFAFA (Near White)
+ * Teks: #333333
+*/
+
+/* Global Styles and Poppins Font */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    color: #333333; 
+    background-color: #FAFAFA; /* Latar belakang hampir putih, sangat bersih */
+}
+
+main {
+    flex-grow: 1;
+}
+
+/* Penyesuaian Baru: Membatasi lebar konten utama */
+.container {
+    /* Mengurangi lebar maksimal container pada layar besar */
+    max-width: 1200px; 
+}
+/* Akhir Penyesuaian Baru */
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+}
+
+/* Navbar Customization */
+.bg-dark {
+    background-color: #C2185B !important; /* Dusty Rose */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
+}
+.navbar-dark .navbar-brand {
+    font-weight: 700;
+}
+.nav-link {
+    color: #F8BBD0 !important;
+    transition: color 0.3s;
+}
+.nav-link.active {
+    font-weight: 600;
+    color: #FFFFFF !important; /* Putih terang sebagai highlight */
+}
+.nav-link:hover {
+    color: #FFFFFF !important;
+}
+
+/* Hero Section (Home) - Peningkatan Layout */
+.hero {
+    background-color: #FFFFFF; /* Putih murni untuk Home */
+    /* Penyesuaian: Mengurangi padding vertikal (ukuran area hero) */
+    padding-top: 5rem !important;
+    padding-bottom: 5rem !important;
+}
+.text-primary {
+    color: #C2185B !important; /* Warna Utama Dusty Rose */
+}
+.text-secondary {
+    color: #555555 !important; /* Abu-abu gelap */
+}
+
+/* Foto Profil */
+.profile-img {
+    border: 6px solid #FFCDD2; /* Border Merah Muda Salmon */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Bayangan yang lebih lembut */
+    /* Penyesuaian: Mengurangi ukuran gambar profil */
+    max-width: 310px; 
+    height: 310px;
+    object-fit: cover; 
+}
+
+/* Tombol (Buttons) */
+.btn-primary {
+    background-color: #C2185B !important;
+    border-color: #C2185B !important;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.2s;
+}
+.btn-primary:hover {
+    background-color: #9C1448 !important;
+    border-color: #9C1448 !important;
+    transform: translateY(-2px); /* Efek tekan */
+}
+.btn-outline-primary {
+    color: #C2185B !important;
+    border-color: #C2185B !important;
+    font-weight: 600;
+}
+.btn-outline-primary:hover {
+    background-color: #C2185B !important;
+    color: #ffffff !important;
+}
+
+/* Project Section (Card) - Layout Clean & Minimalis */
+.card {
+    border: 1px solid #EEEEEE; /* Garis tepi sangat tipis */
+    border-radius: 8px; /* Sudut sedikit melengkung */
+    transition: box-shadow 0.4s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Bayangan sangat ringan */
+}
+
+.card:hover {
+    transform: none; /* Hilangkan efek melayang, fokus ke bayangan */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Bayangan lebih jelas saat hover */
+}
+
+.card-img-top {
+    /* Penyesuaian: Mengurangi tinggi gambar proyek */
+    height: 180px; 
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.card-body {
+    padding: 1.5rem; /* Padding lebih besar */
+}
+
+/* Penyesuaian: Mendorong Badge ke Bawah */
+.card-body .card-text {
+    margin-bottom: 2.5rem; 
+}
+
+/* Badges (Tags) */
+.badge {
+    font-weight: 500;
+    margin-right: 5px;
+    padding: 0.4em 0.8em;
+    border-radius: 4px; /* Kotak sedikit bersudut */
+}
+.bg-primary { background-color: #C2185B !important; }
+.bg-info { background-color: #FFCDD2 !important; color: #333333 !important; } /* Aksen Soft Light */
+.bg-warning { background-color: #FFF9C4 !important; color: #333333 !important; } 
+.bg-success { background-color: #C8E6C9 !important; color: #333333 !important; }
+
+/* Contact Form */
+.form-control {
+    border-radius: 4px;
+    border: 1px solid #E0E0E0;
+}
+.form-control:focus {
+    border-color: #C2185B;
+    box-shadow: 0 0 0 0.25rem rgba(194, 24, 91, 0.15); /* Soft Focus Ring */
+}
+
+.fs-3 a {
+    transition: color 0.3s;
+    color: #555555 !important;
+}
+.fs-3 a:hover {
+    color: #C2185B !important; 
+}
+
+/* Footer */
+footer {
+    background-color: #C2185B !important;
+    color: #F8BBD0;
+    font-size: 0.9rem;
+    padding: 1.5rem 0;
+}
