@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haera Flowers | Toko Bunga Online Terbaik</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fcfcfc;
+        }
+        .cart-items-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .cart-items-container::-webkit-scrollbar-thumb {
+            background-color: #f7d7e3;
+            border-radius: 4px;
+        }
+        .shadow-flower {
+            /* Warna bayangan lebih soft */
+            box-shadow: 0 10px 15px -3px rgba(236, 72, 153, 0.1), 0 4px 6px -2px rgba(96, 165, 250, 0.1); 
+        }
+        .logo-image {
+            height: 36px; 
+            width: auto;
+            object-fit: contain;
+        }
+        /* Style untuk link Navigasi Kategori */
+        .category-nav-link {
+            padding-top: 0.5rem; 
+            padding-bottom: 0.5rem; 
+        }
+        .category-nav-link:hover {
+            color: #ec4899; 
+            border-bottom: 3px solid #ec4899; 
+        }
+        .category-active {
+            color: #ec4899;
+            border-bottom: 3px solid #ec4899; 
+            font-weight: 600;
+        }
+        /* Style untuk Checkbox yang Di-Check */
+        .checked-item {
+            border-left: 5px solid #ec4899; /* Garis pink di sisi kiri untuk item yang dipilih */
+        }
+        
+        /* PERBAIKAN: Menambahkan margin atas saat scrolling ke elemen #products */
+        #products {
+            scroll-margin-top: 8rem; /* Memberi ruang 128px agar header sticky tidak menutupi */
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="sticky top-0 bg-white z-10">
+        <div class="border-b border-gray-100 py-3">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between space-x-4">
+                
+                <div class="flex items-center space-x-2 flex-shrink-0">
+                    <span class="text-3xl font-extrabold tracking-tight">
+                        <span class="text-pink-400">Haera</span>
+                        <span class="text-blue-400">Flowers</span>
+                    </span>
+                </div>
+
+                <div class="flex-1 max-w-xl flex items-center bg-white border border-gray-300 rounded-md overflow-hidden shadow-sm">
+                    <input type="text" id="searchInput" placeholder="Cari di Haera Flowers..." 
+                            class="w-full h-10 px-3 text-sm focus:outline-none placeholder-gray-400 text-gray-800">
+                    
+                    <button class="w-12 h-10 flex items-center justify-center bg-blue-400 hover:bg-blue-500 transition text-white" onclick="filterProducts()">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="flex items-center space-x-3 flex-shrink-0">
+                    <button id="openCartBtn" class="relative p-1.5 rounded-full hover:bg-gray-100 transition duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span id="cartCount" class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-400 rounded-full">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="shadow-sm border-b border-gray-100 hidden md:block">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <nav class="flex space-x-3 h-10 items-center">
+                    
+                    <a href="#products" onclick="filterProducts('', this); return false;" data-category="" class="category-nav-link h-full flex items-center text-sm text-gray-700 transition duration-150 category-active px-3">
+                        Semua Produk
+                    </a>
+                    <a href="#products" onclick="filterProducts('buket', this); return false;" data-category="buket" class="category-nav-link h-full flex items-center text-sm text-gray-700 transition duration-150 px-3">
+                        Buket
+                    </a>
+                    <a href="#products" onclick="filterProducts('meja', this); return false;" data-category="meja" class="category-nav-link h-full flex items-center text-sm text-gray-700 transition duration-150 px-3">
+                        Bunga Meja
+                    </a>
+                    <a href="#products" onclick="filterProducts('karangan', this); return false;" data-category="karangan" class="category-nav-link h-full flex items-center text-sm text-gray-700 transition duration-150 px-3">
+                        Karangan
+                    </a>
+                    <a href="#products" onclick="filterProducts('mawar', this); return false;" data-category="mawar" class="category-nav-link h-full flex items-center text-sm text-gray-700 transition duration-150 px-3">
+                        Bunga Mawar
+                    </a>
+                    <a href="#products" onclick="filterProducts('hadiah', this); return false;" data-category="hadiah" class="category-nav-link h-full flex items-center text-sm text-gray-700 transition duration-150 px-3">
+                        Hadiah
+                    </a>
+                    
+                </nav>
+            </div>
+        </div>
+
+    </header>
+    
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-8">
+        <div class="bg-gray-100 p-6 md:p-10 rounded-xl shadow-lg border border-gray-200 text-center">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-pink-700 mb-2">SPESIAL BUNGA ONLINE</h2>
+            <p class="text-lg text-gray-700 mb-4">Dapatkan diskon khusus untuk pembelian bunga secara online hanya di sini!</p>
+            <div class="flex justify-center space-x-6 text-sm md:text-md font-semibold mb-4">
+                <span class="text-blue-500 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2h-1M9 14h2M12 14c1.657 0 3 .895 3 2s-1.343 2-3 2h-1M9 10h2M7 21a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v14a2 2 0 01-2 2H7z"/></svg> Gratis Ongkir</span>
+                <span class="text-red-500 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Cicilan 0%</span>
+            </div>
+            <a href="#products" class="inline-block px-8 py-3 text-lg font-bold text-white bg-pink-500 rounded-lg hover:bg-pink-600 transition duration-300 shadow-md">Lihat Semua Promo</a>
+        </div>
+    </section>
+
+    <section id="products" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 pt-8 bg-white rounded-lg shadow-xl border-t-4 border-blue-500 mb-12">
+        <h2 class="text-2xl font-bold mb-6 pt-2 text-blue-600 border-b pb-2">Produk Terlaris</h2>
+        <div id="productList" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+            </div>
+        <p id="noProductsFound" class="hidden text-center text-lg text-gray-500 mt-8">Tidak ada produk yang sesuai dengan pencarian atau kategori Anda.</p>
+    </section>
+    
+    <hr>
+    
+    <section id="contact" class="bg-pink-50 py-16 my-10 border-t-4 border-blue-400">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-extrabold text-blue-600 mb-3">Hubungi Kami</h2>
+            <p class="text-lg text-gray-700 mb-6">
+                Butuh bantuan, informasi produk, atau ingin membuat Pesanan Bunga Custom ?
+                <br class="hidden sm:block">
+                Tim kami siap melayani Anda melalui WhatsApp.
+            </p>
+            
+            <div class="flex justify-center">
+                <div class="p-6 bg-white rounded-xl shadow-flower shadow-pink-200/50">
+                    <p class="text-xl font-semibold text-pink-500 mb-2">Admin Haera Flowers</p>
+                    <p class="text-2xl font-bold text-blue-700 mb-4">+62 857-8213-5257</p>
+                    <a href="https://wa.me/+6285782135257?text=Halo%20Haera%20Flowers,%20saya%20memiliki%20pertanyaan%20atau%20ingin%20memesan%20custom." target="_blank" class="inline-flex items-center px-8 py-3 bg-blue-400 text-white font-bold text-lg rounded-full hover:bg-pink-500 transition duration-300 shadow-lg shadow-blue-300/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.88 2.69 15.71 3.67 17.33L2.2 22.08L7.14 20.65C8.65 21.46 10.32 21.87 12.04 21.87C17.5 21.87 21.95 17.42 21.95 11.96C21.95 6.49 17.5 2 12.04 2ZM12.04 3.96C16.42 3.96 19.99 7.53 19.99 11.91C19.99 16.3 16.42 19.87 12.04 19.87C10.45 19.87 8.94 19.4 7.63 18.57L7.33 18.39L4.01 19.33L4.98 16.04L4.76 15.71C3.89 14.33 3.42 12.67 3.42 11.02C3.42 6.59 6.96 3.96 12.04 3.96ZM8.47 7.78C8.36 7.78 8.24 7.77 8.13 7.78C7.94 7.85 7.7 8.08 7.46 8.35C7.22 8.62 6.84 9.1 6.5 9.58C6.15 10.06 5.8 10.53 5.48 11.05C5.16 11.57 5.0 12.18 5.0 12.82C5.0 13.46 5.28 14.07 5.56 14.49C5.84 14.91 6.13 15.3 6.49 15.65C6.84 16 7.21 16.27 7.54 16.43C7.88 16.59 8.24 16.7 8.57 16.7C8.93 16.7 9.27 16.6 9.61 16.51C9.96 16.41 10.37 16.28 10.64 16.03C10.91 15.78 11.16 15.48 11.41 15.14C11.66 14.8 11.89 14.46 12.07 14.22C12.25 13.98 12.44 13.68 12.68 13.43C12.92 13.18 13.12 12.93 13.31 12.72C13.5 12.51 13.75 12.24 13.88 12.1C14.01 11.96 14.15 11.84 14.29 11.72C14.43 11.6 14.54 11.5 14.65 11.39C14.77 11.28 14.86 11.16 14.98 11.04C15.1 10.92 15.22 10.8 15.34 10.68C15.46 10.56 15.62 10.38 15.68 10.27C15.74 10.16 15.8 10.06 15.83 9.98C15.86 9.91 15.91 9.8 15.91 9.64C15.91 9.48 15.83 9.38 15.68 9.25C15.53 9.12 15.27 8.94 15.06 8.87C14.85 8.79 14.61 8.7 14.36 8.65C14.12 8.6 13.88 8.57 13.64 8.57C13.4 8.57 13.19 8.64 12.98 8.68C12.77 8.72 12.55 8.77 12.28 8.87C12.01 8.97 11.65 9.14 11.35 9.41C11.04 9.68 10.74 10.04 10.45 10.4C10.16 10.76 9.89 11.13 9.61 11.49C9.33 11.85 9.07 12.18 8.83 12.55C8.59 12.92 8.36 13.25 8.16 13.53C7.96 13.81 7.78 14.07 7.6 14.34C7.42 14.61 7.27 14.84 7.15 15.02C7.03 15.2 6.94 15.35 6.84 15.44C6.74 15.53 6.66 15.61 6.55 15.66C6.44 15.71 6.32 15.76 6.22 15.76C6.12 15.76 6.01 15.76 5.86 15.76C5.71 15.76 5.56 15.72 5.37 15.64C5.18 15.56 5.03 15.38 4.96 15.25C4.89 15.12 4.86 14.96 4.86 14.77C4.86 14.58 4.92 14.38 5.06 14.18C5.2 13.98 5.43 13.69 5.76 13.34C6.09 12.99 6.51 12.44 6.87 11.85C7.23 11.26 7.55 10.59 7.82 9.9C8.09 9.21 8.31 8.58 8.47 7.78Z"/></svg>
+                        Hubungi via WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-blue-50 py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h4 class="text-xl font-bold mb-6 text-pink-500 border-b pb-2">Informasi Toko</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-gray-700">
+                <div>
+                    <h5 class="font-semibold text-blue-500 mb-2 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.727A8 8 0 016.343 5.273L17.657 16.727zm0 0l-1.061 1.061-2.928 2.928m-3.96-3.96L4.343 15.273a8 8 0 0111.314 0z"/></svg> Alamat Toko</h5>
+                    <p class="text-sm">
+                        Jl. Perjuangan, Karyamulya, <br>
+                        Kecamatan Kesambi, <br>
+                        Kota Cirebon, Jawa Barat.
+                    </p>
+                </div>
+                <div>
+                    <h5 class="font-semibold text-blue-500 mb-2 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.84 5.25A2 2 0 0012 13.5v2a2 2 0 002-2v-2a2 2 0 00-1.16-1.75L21 8m-4 12V6m2 14V6M5 20V6m2 14V6M3 6h18a2 2 0 012 2v8a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2z"/></svg> Kontak</h5>
+                    <ul class="space-y-1 text-sm">
+                        <li>WhatsApp: <a href="https://wa.me/+6285782135257" target="_blank" class="hover:text-pink-500 transition">+62 857-8213-5257</a></li>
+                        <li>Email: <a href="mailto:khusnahqa@gmail.com" class="hover:text-pink-500 transition">khusnahqa@gmail.com</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-semibold text-blue-500 mb-2 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Jam Buka</h5>
+                    <p class="text-sm">
+                        Setiap Hari: 08:00 - 21:00 WIB<br>
+                        (Pemesanan via WA 24 Jam)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-blue-400 text-white py-6"> 
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>&copy; 2025 Haera Flowers. Semua Hak Dilindungi.</p>
+        </div>
+    </footer>
+
+
+    <div id="cartModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 z-20 hidden transition-opacity duration-300 ease-in-out">
+        <div class="fixed right-0 top-0 h-full w-full md:w-96 bg-white shadow-2xl overflow-y-auto transform translate-x-full transition-transform duration-300 ease-in-out" id="cartSidebar">
+            <div class="p-6">
+                <div class="flex justify-between items-center border-b pb-4 mb-4">
+                    <h3 class="text-2xl font-bold text-blue-600">Keranjang Belanja</h3>
+                    <button id="closeCartBtn" class="text-gray-500 hover:text-gray-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+                
+                <div id="cartItems" class="cart-items-container space-y-4 max-h-[70vh] overflow-y-auto mb-4 pr-1">
+                    <p id="emptyCartMessage" class="text-gray-500 text-center mt-10">Keranjang Anda kosong.</p>
+                </div>
+
+                <div id="cartSummary" class="border-t pt-4">
+                    <div class="flex justify-between items-center font-semibold text-lg mb-4">
+                        <span>Total Item Terpilih:</span>
+                        <span id="cartTotal" class="text-pink-500">Rp 0</span>
+                    </div>
+                    <button id="checkoutSelectedBtn" onclick="goToCheckout(null)" 
+                        class="w-full py-3 bg-blue-500 text-white font-bold rounded-xl hover:bg-blue-600 transition duration-300 shadow-lg shadow-blue-300/50 disabled:opacity-50">
+                        Checkout Item Terpilih
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="checkoutModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 z-30 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 transform scale-95 transition-transform duration-300 ease-in-out">
+            <div class="flex justify-between items-center border-b pb-4 mb-6">
+                <h3 class="text-2xl font-bold text-blue-600">Formulir Pengiriman</h3>
+                <button id="closeCheckoutBtn" class="text-gray-500 hover:text-gray-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+            
+            <p class="mb-4 text-sm text-gray-600"><span class="font-bold text-red-500">Checkout untuk:</span> <span id="checkoutModeDisplay"></span></p>
+
+            <form id="checkoutForm">
+                <div class="mb-4">
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+                    <input type="text" id="name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div class="mb-4">
+                    <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Alamat Pengiriman</label>
+                    <textarea id="address" rows="3" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"></textarea>
+                </div>
+                <div class="mb-6">
+                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Nomor WhatsApp</label>
+                    <input type="tel" id="phone" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Contoh: 081234567890">
+                </div>
+
+                <button type="submit" class="w-full py-3 bg-pink-500 text-white font-bold rounded-xl hover:bg-pink-600 transition duration-300 shadow-lg shadow-pink-300/50">
+                    Konfirmasi Pesanan & Lanjut ke WhatsApp
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="messageBox" class="fixed bottom-5 right-5 z-40">
+        </div>
+
+    <script>
+        const products = [
+            { id: 1, name: "Buket Bunga Tulip", price: 100000, image: "https://i.imgur.com/PM58BQc.jpeg", category: "buket" },
+            { id: 2, name: "Buket Bunga Matahari", price: 110000, image: "https://i.imgur.com/J6bhftM.jpeg", category: "buket" },
+            { id: 3, name: "Buket Bunga Anggrek", price: 100000, image: "https://i.imgur.com/eeaFf9x.jpeg", category: "buket" },
+            { id: 4, name: "Fresh Flowers Bouquet", price: 90000, image: "https://i.imgur.com/IFONVLL.jpeg", category: "buket" },
+            { id: 5, name: "Buket Bunga Artificial", price: 115000, image: "https://i.imgur.com/28mcPTd.jpeg", category: "buket" },
+            { id: 6, name: "Buket Bunga Peony", price: 100000, image: "https://i.imgur.com/oVNGxDy.jpeg", category: "buket" },
+            { id: 7, name: "Bunga Meja Artificial Klasik", price: 250000, image: "https://i.imgur.com/VeUSZ5G.jpeg", category: "meja" },
+            { id: 8, name: "Bunga Meja Modern", price: 255000, image: "https://i.imgur.com/iJgueeD.jpeg", category: "meja" },
+            { id: 9, name: "Bunga Bunga Mawar", price: 150000, image: "https://i.imgur.com/xEOH1Bh.jpeg", category: "bunga mawar" },
+            { id: 10, name: "Buket Bunga + Boneka (Teddy Bear)", price: 90000, image: "https://i.imgur.com/aWFAA8G.jpeg", category: "hadiah" },
+            { id: 11, name: "Buket Wisuda", price: 100000, image: "https://i.imgur.com/dt9l04u.jpeg", category: "hadiah" },
+            { id: 12, name: "Papan Bunga Akrilik Ucapan", price: 300000, image: "https://i.imgur.com/ggCFVss.jpeg", category: "karangan" }
+        ];
+        
+        // Inisialisasi keranjang KOSONG, akan diisi dari localStorage saat inisialisasi
+        let cart = []; 
+        window.itemsToProcess = []; 
+        const shopWhatsAppNumber = "6285782135257"; 
+        const STORAGE_KEY = 'haera_flowers_cart'; // Kunci untuk localStorage
+
+        // --- DOM Elements ---
+        const productListEl = document.getElementById('productList');
+        const searchInputEl = document.getElementById('searchInput');
+        const noProductsFoundEl = document.getElementById('noProductsFound');
+        const cartModal = document.getElementById('cartModal');
+        const cartSidebar = document.getElementById('cartSidebar');
+        const openCartBtn = document.getElementById('openCartBtn');
+        const closeCartBtn = document.getElementById('closeCartBtn');
+        const cartCountEl = document.getElementById('cartCount');
+        const cartItemsEl = document.getElementById('cartItems');
+        const cartTotalEl = document.getElementById('cartTotal');
+        const checkoutSelectedBtn = document.getElementById('checkoutSelectedBtn');
+        const checkoutModal = document.getElementById('checkoutModal');
+        const closeCheckoutBtn = document.getElementById('closeCheckoutBtn');
+        const checkoutForm = document.getElementById('checkoutForm');
+        const emptyCartMessageEl = document.getElementById('emptyCartMessage');
+        const messageBoxEl = document.getElementById('messageBox');
+        const checkoutModeDisplay = document.getElementById('checkoutModeDisplay');
+
+
+        // --- Utility Functions ---
+        
+        const formatRupiah = (number) => {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(number);
+        };
+
+        const showMessage = (message, type = 'success') => {
+            const bgColor = type === 'error' ? 'bg-red-400' : 'bg-green-400';
+            const messageEl = document.createElement('div');
+            messageEl.className = `${bgColor} text-white p-3 rounded-lg shadow-xl mb-3 transition duration-300 transform translate-x-0 opacity-100`;
+            messageEl.textContent = message;
+            
+            messageBoxEl.appendChild(messageEl);
+
+            setTimeout(() => {
+                messageEl.classList.add('opacity-0', 'translate-x-full');
+                messageEl.addEventListener('transitionend', () => messageEl.remove());
+            }, 3000);
+        };
+
+        // --- Local Storage Functions (NEW) ---
+        
+        // Menyimpan data keranjang ke localStorage
+        const saveCart = () => {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+        };
+
+        // Memuat data keranjang dari localStorage
+        const loadCart = () => {
+            const savedCart = localStorage.getItem(STORAGE_KEY);
+            if (savedCart) {
+                try {
+                    // Mengubah string JSON menjadi array JavaScript
+                    cart = JSON.parse(savedCart);
+                } catch (e) {
+                    // Jika data korup, reset keranjang
+                    console.error("Gagal memuat keranjang dari localStorage", e);
+                    cart = [];
+                }
+            } else {
+                cart = [];
+            }
+        };
+
+
+        // --- Product Filtering & Rendering ---
+
+        window.filterProducts = (filterCategory = '', activeElement = null) => {
+            const searchTerm = searchInputEl.value.toLowerCase().trim();
+            
+            document.querySelectorAll('.category-nav-link').forEach(link => {
+                link.classList.remove('category-active');
+            });
+
+            if (activeElement) {
+                activeElement.classList.add('category-active');
+            } else {
+                 const currentCategoryData = document.querySelector(`.category-nav-link[data-category="${filterCategory}"]`);
+                 if (currentCategoryData) {
+                    currentCategoryData.classList.add('category-active');
+                 } else {
+                    document.querySelector('.category-nav-link[data-category=""]').classList.add('category-active');
+                 }
+            }
+
+            const filteredProducts = products.filter(product => {
+                const searchMatch = product.name.toLowerCase().includes(searchTerm) || product.category.toLowerCase().includes(searchTerm);
+                let categoryFilterMatch = true;
+                if (filterCategory) {
+                    categoryFilterMatch = product.category.toLowerCase().includes(filterCategory);
+                }
+                return searchMatch && categoryFilterMatch;
+            });
+
+            if (filteredProducts.length === 0) {
+                productListEl.innerHTML = '';
+                noProductsFoundEl.classList.remove('hidden');
+            } else {
+                noProductsFoundEl.classList.add('hidden');
+                productListEl.innerHTML = filteredProducts.map(product => `
+                    <div class="product-card bg-white rounded-xl shadow-md overflow-hidden transition transform hover:scale-[1.02] duration-300 border border-gray-100">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-40 object-contain object-center p-2">
+                        <div class="p-3">
+                            <h3 class="text-sm font-semibold text-gray-900 mb-1 truncate">${product.name}</h3>
+                            <p class="text-md font-bold text-pink-500 mb-3">${formatRupiah(product.price)}</p>
+                            
+                            <div class="flex space-x-2">
+                                <button onclick="addToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price})" 
+                                    class="flex-1 py-1 text-white font-medium rounded-lg bg-blue-400 hover:bg-blue-500 transition duration-300 text-xs">
+                                    +Keranjang
+                                </button>
+                                <button onclick="addToCartAndCheckout(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price})" 
+                                    class="flex-1 py-1 text-white font-medium rounded-lg bg-pink-500 hover:bg-pink-600 transition duration-300 text-xs">
+                                    Beli Sekarang
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            // Menggulir ke area produk. Scroll-margin-top akan mencegah header menutupi.
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        // --- Core Cart Logic ---
+
+        window.addToCartAndCheckout = (id, name, price) => {
+             const existingItem = cart.find(item => item.id === id);
+            
+             if (existingItem) {
+                 existingItem.quantity += 1;
+             } else {
+                 cart.push({ id, name, price, quantity: 1, isChecked: true }); 
+             }
+             
+             saveCart(); // Simpan perubahan
+             
+             const itemToCheckout = cart.find(item => item.id === id);
+             window.itemsToProcess = [{ ...itemToCheckout }]; 
+             
+             updateCartDisplay();
+             goToCheckout(itemToCheckout.id); 
+        };
+
+        window.addToCart = (id, name, price) => {
+            const existingItem = cart.find(item => item.id === id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ id, name, price, quantity: 1, isChecked: true });
+            }
+            
+            saveCart(); // Simpan perubahan
+            updateCartDisplay();
+            showMessage(`"${name}" ditambahkan ke keranjang.`);
+        };
+        
+        window.changeQuantity = (id, delta) => {
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    removeItemFromCart(id); // Fungsi ini juga memanggil saveCart()
+                } else {
+                    saveCart(); // Simpan perubahan
+                }
+                updateCartDisplay();
+            }
+        };
+
+        window.removeItemFromCart = (id) => {
+             const itemIndex = cart.findIndex(item => item.id === id);
+             if (itemIndex > -1) {
+                const removedItem = cart[itemIndex];
+                cart.splice(itemIndex, 1);
+                saveCart(); // Simpan perubahan
+                updateCartDisplay();
+                showMessage(`"${removedItem.name}" dihapus dari keranjang.`, 'error');
+             }
+        };
+
+        window.toggleItemCheck = (id) => {
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.isChecked = !item.isChecked;
+                saveCart(); // Simpan perubahan
+                updateCartDisplay();
+            }
+        };
+
+        // --- Cart Display (Updated) ---
+
+        const updateCartCount = () => {
+            // Logika notifikasi: Menghitung jumlah JENIS produk unik (cart.length)
+            cartCountEl.textContent = cart.length; 
+        };
+
+        const updateCartDisplay = () => {
+            let total = 0;
+            let checkedCount = 0;
+            cartItemsEl.innerHTML = ''; 
+
+            if (cart.length === 0) {
+                emptyCartMessageEl.classList.remove('hidden');
+            } else {
+                emptyCartMessageEl.classList.add('hidden');
+                
+                cart.forEach(item => {
+                    if (item.isChecked) {
+                        total += item.price * item.quantity;
+                        checkedCount++;
+                    }
+                    
+                    const itemEl = document.createElement('div');
+                    itemEl.className = `flex space-x-2 p-3 bg-blue-50 rounded-xl border border-blue-100 ${item.isChecked ? 'checked-item' : ''}`;
+                    itemEl.innerHTML = `
+                        <div class="flex items-center">
+                            <input type="checkbox" id="check-${item.id}" ${item.isChecked ? 'checked' : ''} 
+                                onclick="toggleItemCheck(${item.id})"
+                                class="w-5 h-5 text-pink-500 bg-gray-100 border-gray-300 rounded focus:ring-pink-500">
+                        </div>
+                        
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start mb-2">
+                                <p class="font-semibold text-gray-800">${item.name}</p>
+                                <button onclick="removeItemFromCart(${item.id})" class="text-gray-400 hover:text-red-500 transition">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                </button>
+                            </div>
+
+                            <div class="flex justify-between items-end">
+                                <p class="text-md font-bold text-pink-600">${formatRupiah(item.price * item.quantity)}</p>
+                                
+                                <div class="flex items-center space-x-1">
+                                    <button onclick="changeQuantity(${item.id}, -1)" class="w-7 h-7 flex items-center justify-center bg-gray-200 rounded-full text-gray-700 hover:bg-gray-300 transition text-sm font-bold">-</button>
+                                    <span class="font-bold text-pink-500 w-5 text-center">${item.quantity}</span>
+                                    <button onclick="changeQuantity(${item.id}, 1)" class="w-7 h-7 flex items-center justify-center bg-gray-200 rounded-full text-gray-700 hover:bg-gray-300 transition text-sm font-bold">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    cartItemsEl.appendChild(itemEl);
+                });
+            }
+
+            cartTotalEl.textContent = formatRupiah(total);
+            checkoutSelectedBtn.disabled = checkedCount === 0;
+            updateCartCount();
+        };
+
+        // --- Checkout Logic (Modified to call saveCart) ---
+
+        window.goToCheckout = (singleItemId = null) => {
+             let itemsToCheckout;
+
+             if (singleItemId) {
+                const item = cart.find(i => i.id === singleItemId);
+                if (!item) {
+                     showMessage('Produk ini tidak ada di keranjang.', 'error');
+                     return;
+                }
+                itemsToCheckout = [item];
+                checkoutModeDisplay.textContent = `1 Item: ${item.name}`;
+             } else {
+                itemsToCheckout = cart.filter(item => item.isChecked);
+                if (itemsToCheckout.length === 0) {
+                     showMessage('Pilih setidaknya satu item untuk melanjutkan checkout.', 'error');
+                     return;
+                }
+                checkoutModeDisplay.textContent = `${itemsToCheckout.length} Jenis Produk Terpilih`;
+             }
+             
+             window.itemsToProcess = itemsToCheckout; 
+
+             closeCartModal();
+             checkoutModal.classList.remove('hidden');
+        };
+
+
+        // --- Modal Handlers & WhatsApp Integration (Modified to call saveCart) ---
+
+        const openCartModal = () => {
+            cartModal.classList.remove('hidden');
+            setTimeout(() => {
+                cartSidebar.classList.remove('translate-x-full');
+            }, 10);
+        };
+
+        const closeCartModal = () => {
+            cartSidebar.classList.add('translate-x-full');
+            setTimeout(() => {
+                cartModal.classList.add('hidden');
+            }, 300);
+        };
+
+        const closeCheckoutModal = () => {
+            checkoutModal.classList.add('hidden');
+            window.itemsToProcess = []; 
+        };
+
+        const generateWhatsAppLink = (name, address, phone) => {
+            // Menggunakan *tebal* dan \n (baris baru)
+            let orderSummary = `Halo Haera Flowers, saya ingin melakukan pemesanan.\n\n*Detail Pesanan :*\n`;
+            let total = 0;
+
+            window.itemsToProcess.forEach((item, index) => {
+                const subtotal = item.price * item.quantity;
+                total += subtotal;
+                orderSummary += `*${index + 1}. ${item.name} (${formatRupiah(item.price)}) x ${item.quantity} = ${formatRupiah(subtotal)}*\n`;
+            });
+
+            orderSummary += `\n*Total Pembayaran: ${formatRupiah(total)}*\n\n`;
+            orderSummary += `*Informasi Pengiriman :*\n`;
+            // Penambahan spasi untuk penyejajaran titik dua:
+            orderSummary += `*Nama 	: ${name}*\n`; // 'Nama' + 2 spasi + ':'
+            orderSummary += `*HP/WA	: ${phone}*\n`; // 'HP/WA' + 1 spasi + ':'
+            orderSummary += `*Alamat	: ${address}*\n\n`; // 'Alamat' + ':'
+            orderSummary += `Mohon konfirmasi total dan detail pembayaran. Terima kasih.`;
+
+            // Menggunakan encodeURIComponent untuk mengubah format plaintext ke URL Encoded
+            return `https://wa.me/${shopWhatsAppNumber}?text=${encodeURIComponent(orderSummary)}`;
+        };
+
+        const handleCheckoutSubmit = (event) => {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const address = document.getElementById('address').value;
+            const phone = document.getElementById('phone').value;
+
+            if (window.itemsToProcess.length === 0) {
+                showMessage('Pesanan Anda kosong. Pilih item untuk checkout.', 'error');
+                return;
+            }
+
+            const waLink = generateWhatsAppLink(name, address, phone);
+            
+            // Hapus item yang di-checkout dari keranjang
+            const checkedOutIds = window.itemsToProcess.map(item => item.id);
+            cart = cart.filter(item => !checkedOutIds.includes(item.id));
+            
+            window.open(waLink, '_blank');
+            
+            // Simpan keranjang setelah item yang sudah di-checkout dihapus
+            saveCart(); 
+            
+            // Mengosongkan formulir setelah konfirmasi
+            checkoutForm.reset(); 
+            
+            updateCartDisplay();
+            closeCheckoutModal();
+            showMessage('Pesanan dikirim! Item sudah dikeluarkan dari keranjang.', 'success');
+        };
+
+
+        // --- Event Listeners and Initialization ---
+
+        openCartBtn.addEventListener('click', openCartModal);
+        closeCartBtn.addEventListener('click', closeCartModal);
+        closeCheckoutBtn.addEventListener('click', closeCheckoutModal);
+        checkoutForm.addEventListener('submit', handleCheckoutSubmit);
+
+        searchInputEl.addEventListener('input', () => filterProducts());
+
+        cartModal.addEventListener('click', (e) => {
+            if (e.target === cartModal) {
+                closeCartModal();
+            }
+        });
+
+        // Initialize the app (MODIFIED)
+        window.onload = () => {
+            loadCart(); // <--- MUAAT DATA KERANJANG DARI LOCAL STORAGE
+            filterProducts(); 
+            updateCartDisplay(); // <--- DISPLAY KERANJANG YANG SUDAH DIMUAT
+        };
+
+    </script>
+</body>
+</html>
