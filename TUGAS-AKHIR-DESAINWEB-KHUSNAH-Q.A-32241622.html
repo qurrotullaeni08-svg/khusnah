@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cirebon: Kota Wali, Pusaka Budaya, dan Pesona Pesisir</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Variabel Warna Mega Mendung */
+        :root {
+            --biru-tua: #003366;  
+            --biru-sedang: #006699; 
+            --biru-muda: #6699cc;   
+            --aksen-merah: #cc3300;  
+            --latar-belakang: #f0f8ff;    
+            --putih: #ffffff;
+            --sukses-hijau: #28a745; 
+        }
+
+        /* RESET DAN FONT */
+        body {  
+            font-family: 'Poppins', sans-serif;  
+            margin: 0;  
+            padding: 0;  
+            background-color: var(--latar-belakang);  
+            color: #333;  
+            line-height: 1.6;
+        }
+
+        /* --- PERBAIKAN HEADER (Dibuat lebih ringkas) --- */
+        header {  
+            background-image: url('https://i.imgur.com/990CkZj.png');  
+            background-repeat: repeat;
+            background-position: center center;
+            background-size: 180px;
+            background-color: var(--biru-tua);  
+            background-blend-mode: multiply;
+            color: var(--putih);  
+            /* MENGECILKAN PADDING ATAS DAN BAWAH */
+            padding: 0.8em 0; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky; 
+            top: 0;
+            z-index: 1000;
+        }
+        
+        /* CONTAINER FLEXBOX UTAMA */
+        .header-content {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 0 20px; 
+        }
+        
+        /* LOGO & JUDUL (KIRI) */
+        .logo-title {
+            display: flex;
+            align-items: center;
+            text-align: left;
+        }
+
+        .header-logo {
+            /* MENGECILKAN UKURAN LOGO */
+            width: 40px; 
+            height: 40px;
+            margin-right: 8px; 
+            margin-bottom: 0; 
+        }
+
+        header h1 {
+            margin: 0;
+            font-weight: 700;
+            /* MENGECILKAN UKURAN JUDUL */
+            font-size: 1.2em; 
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);  
+        }
+        
+        /* NAVIGASI (KANAN) */
+        nav {  
+            background-color: transparent; 
+            position: static;
+            padding: 0; 
+            box-shadow: none;
+        }
+        nav ul {  
+            list-style: none;  
+            padding: 0;  
+            margin: 0;  
+            text-align: right;
+        }
+        nav ul li {  
+            display: inline-block; 
+            margin: 0 2px; 
+            transition: background-color 0.3s;
+            border-radius: 5px; 
+        }
+        nav ul li:hover {
+            background-color: var(--biru-muda);
+        }
+        nav ul li a {  
+            color: var(--putih);  
+            text-decoration: none;  
+            font-weight: 500; 
+            /* MENGECILKAN PADDING LINK NAVIGASI */
+            padding: 6px 10px; 
+            font-size: 0.85em; 
+            display: block;
+        }
+
+        /* SECTION KONTEN */
+        section {  
+            padding: 40px 20px;  
+            margin: 10px auto;  
+            max-width: 1100px;  
+            background-color: var(--putih);  
+            border-radius: 12px;  
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);  
+            scroll-margin-top: 80px; /* Disesuaikan dengan header yang lebih kecil */
+        }
+
+        /* KHUSUS UNTUK SECTION PERTAMA AGAR LEBIH RAPAT KE HEADER */
+        #beranda {
+            margin-top: 0; 
+            border-top-left-radius: 0; 
+            border-top-right-radius: 0;
+        }
+
+        section h2 {  
+            color: var(--aksen-merah);  
+            border-bottom: 3px solid var(--biru-muda);
+            padding-bottom: 8px; 
+            margin-bottom: 12px; 
+            font-weight: 600;
+        }
+        section h3 {
+            color: var(--biru-tua);
+            font-weight: 400;
+            margin-top: 15px; 
+            margin-bottom: 8px; 
+        }
+        section p {
+            margin-top: 0;
+            margin-bottom: 8px; 
+        }
+        
+        /* HERO SECTION */
+        .hero {  
+            position: relative;  
+            overflow: hidden;  
+            /* MENGECILKAN TINGGI HERO */
+            height: 380px;  
+            color: white;  
+            display: flex;  
+            flex-direction: column;
+            align-items: center;  
+            justify-content: center;  
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);  
+            background-color: var(--biru-tua); 
+            background-image: url('image_74ec0a.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        #beranda .hero {
+            border-top-left-radius: 10px; 
+            border-top-right-radius: 10px;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: 1;  
+            transform: translate(-50%, -50%);
+            object-fit: cover;  
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 51, 102, 0.4);  
+            z-index: 2;  
+            border-radius: 10px;
+        }
+        .hero h2 {  
+            /* MENGECILKAN JUDUL HERO */
+            font-size: 3em;  
+            color: var(--putih);  
+            border: none;
+            margin: 0;
+            line-height: 1;
+            position: relative;  
+            z-index: 3;
+        }
+        .hero p {
+            font-size: 1em;
+            font-weight: 300;
+            position: relative;  
+            z-index: 3;
+        }
+        
+        /* PERSONAL INTRO */
+        .personal-intro {
+            display: flex;  
+            align-items: center;  
+            gap: 20px;  
+            padding: 20px; 
+            background-color: var(--latar-belakang);  
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            margin-top: 10px; 
+            margin-bottom: 20px; 
+        }
+        .personal-intro p {
+             margin-bottom: 5px; 
+        }
+
+        .personal-intro-img {
+            width: 120px; 
+            height: 120px;
+            border-radius: 50%;  
+            object-fit: cover;
+            border: 5px solid var(--biru-muda);  
+            flex-shrink: 0;
+        }
+        
+        /* GALERI UMUM */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));  
+            gap: 20px; 
+            margin-top: 20px; 
+        }
+        .grid-item {
+            background-color: #f8f8f8;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .grid-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+        }
+        
+        .grid-item img {
+            width: 100%;
+            height: 220px;
+            object-fit: contain; 
+            display: block;
+            padding: 10px; 
+            background-color: #ffffff;
+        }
+
+        .grid-item-content {
+            padding: 20px;
+        }
+        .grid-item-content h3 {
+            margin-top: 0;
+            margin-bottom: 8px; 
+            color: var(--biru-tua);
+            font-weight: 600;
+        }
+        .grid-item-content p {
+            font-size: 0.95em;
+            color: #555;
+            margin-bottom: 0;
+        }
+
+        /* CTA Buttons */
+        .cta-buttons a {
+            padding: 10px 20px;  
+            background-color: var(--aksen-merah);  
+            color: white;  
+            text-decoration: none;  
+            border-radius: 5px;  
+            font-weight: 600;  
+            margin-right: 15px;
+            transition: background-color 0.3s ease;
+        }
+        .cta-buttons a.secondary {
+            background-color: var(--biru-sedang);
+        }
+
+        /* GAYA FORMULIR KONTAK */
+        .contact-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--biru-tua);
+        }
+        .contact-form input[type="text"],
+        .contact-form input[type="email"],
+        .contact-form textarea {
+            width: 100%;
+            padding: 10px; 
+            margin-bottom: 15px; 
+            border: 1px solid var(--biru-muda);
+            border-radius: 6px;
+            box-sizing: border-box; 
+            font-family: 'Poppins', sans-serif;
+        }
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 120px; 
+        }
+        .contact-form button {
+            background-color: var(--aksen-merah);
+            color: var(--putih);
+            padding: 12px 25px; 
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+        }
+        .contact-form button:hover {
+            background-color: #ff5533; 
+        }
+
+        /* GAYA PESAN SUKSES */
+        #status-message {
+            margin-top: 15px; 
+            padding: 12px; 
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            opacity: 0; 
+            transition: opacity 0.5s ease;
+        }
+        
+        .success {
+            background-color: #e6ffed; 
+            color: var(--sukses-hijau);
+            border: 1px solid var(--sukses-hijau);
+            opacity: 1 !important; 
+        }
+
+
+        /* FOOTER */
+        footer {  
+            background-color: var(--biru-tua);  
+            color: var(--biru-muda);  
+            text-align: center;  
+            padding: 1em 0;  
+            margin-top: 20px; 
+            font-size: 0.9em;
+        }
+        
+        /* GAYA KHUSUS UNTUK INFORMASI KONTAK TAMBAHAN */
+        .contact-info-extra {
+            background-color: var(--biru-sedang);
+            color: var(--putih);
+            text-align: center;
+            padding: 12px; 
+            font-size: 0.85em; 
+        }
+        .contact-info-extra p {
+            margin: 3px 0; 
+            font-weight: 400;
+        }
+
+        /* RESPONSIVENESS NAVIGASI */
+        @media (max-width: 992px) {
+            /* PERBAIKAN RESPONSIVENESS HEADER */
+            .header-logo {
+                width: 35px;
+                height: 35px;
+            }
+            header h1 {
+                font-size: 1.1em;
+            }
+            nav ul li a {
+                padding: 4px 8px; 
+                font-size: 0.8em;
+            }
+
+            section {
+                scroll-margin-top: 60px; /* Disesuaikan dengan header yang lebih kecil */
+                margin: 10px auto; 
+                padding: 25px 15px; 
+            }
+            #beranda {
+                margin-top: 0; 
+            }
+            .hero {
+                height: 300px; /* Lebih kecil di mobile */
+            }
+            .hero h2 {
+                font-size: 2em; /* Lebih kecil di mobile */
+            }
+            .grid-container {
+                gap: 15px; 
+            }
+            .personal-intro {
+                flex-direction: column;  
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="logo-title">
+                <img src="https://i.imgur.com/aCehv4h.png" alt="Logo Cirebon" class="header-logo">
+                <h1><span style="color: var(--biru-muda);">CIREBON</span> KOTA PUSAKA</h1>
+            </div>
+
+            <nav>
+                <ul>
+                    <li><a href="#beranda">Beranda</a></li>
+                    <li><a href="#portofolio">Portofolio Saya</a></li>
+                    <li><a href="#kuliner">Kuliner</a></li>
+                    <li><a href="#sejarah">Sejarah</a></li>
+                    <li><a href="#keagamaan">Keagamaan</a></li>
+                    <li><a href="#pariwisata">Pariwisata</a></li>
+                    <li><a href="#kontak">Kontak</a></li>  
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        
+        <section id="beranda">
+            <div class="hero">
+                <video class="hero-video" playsinline autoplay muted loop>
+                    <source src="https://qurrotullaeni08-svg.github.io/khusnah.qa/cirebon-cinematic.mp4" type="video/mp4">
+                    Browser Anda tidak mendukung tag video.
+                </video>
+                
+                <div class="hero-overlay"></div>
+
+                <div style="position: relative; z-index: 3; text-align: center;">
+                    <h2>Pesona Abadi Bumi Cirebon</h2>
+                    <p>Kota Udang, Kota Wali, Penuh Sejarah dan Kelezatan.</p>
+                </div>
+            </div>
+            
+            <h3>Kenali Jantung Pesisir Jawa Barat</h3>
+            <p>Cirebon adalah perpaduan unik antara budaya Sunda dan Jawa, diperkaya oleh peran historisnya sebagai pelabuhan niaga dan pusat penyebaran Islam. Dari corak batik yang membahana hingga sajian kuliner yang memikat, Cirebon menawarkan pengalaman yang tak terlupakan.</p>
+            
+            <p class="cta-buttons" style="text-align: center; margin-top: 30px;">
+                <a href="#kuliner">Jelajahi Kuliner Khas</a>
+                <a href="#pariwisata" class="secondary">Lihat Destinasi Wisata</a>
+            </p>
+        </section>
+
+        <section id="portofolio">
+            <h2>💼 Portofolio Saya</h2>
+            <div class="personal-intro">
+                <img src="https://i.imgur.com/pX31Tmk.jpeg" alt="Foto Pribadi Khusnah" class="personal-intro-img">
+                <div>
+                    <h3 style="margin-top: 0; color: var(--biru-tua);">Perkenalkan, Saya Khusnah Qurrotul A'eni</h3>
+                    <p style="margin-bottom: 5px;">Seorang mahasiswa STMIK IKMI Cirebon jurusan Komputerisasi Akuntansi yang antusias terhadap budaya Cirebon, serta tertarik pada pengembangan web dan desain. Saya fokus pada desain responsif dan UX/UI dengan sentuhan kearifan lokal.</p>
+                    <p style="font-style: italic; color: var(--aksen-merah);">"Kecintaan pada tanah kelahiran mendorong saya untuk menghadirkan nilai budaya dalam setiap karya digital."</p>
+                </div>
+            </div>
+            <p>Berikut adalah beberapa proyek atau karya yang telah saya buat.</p>
+            <div class="grid-container">
+                <div class="grid-item">
+                    <img src="https://i.imgur.com/ZA0gmmU.png" alt="Proyek Desain Web">
+                    <div class="grid-item-content">
+                        <h3>Website Pariwisata</h3>
+                        <p>Website pariwisata yang mengajak pengunjung menikmati keindahan Bandung melalui tempat wisata, budaya, dan pesona alamnya.</p>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <img src="https://i.imgur.com/96Rud1r.png" alt="Ilustrasi Batik">
+                    <div class="grid-item-content">
+                        <h3>Website Toko Online</h3>
+                        <p>Website yang menjual barang atau jasa secara digital, tanpa perlu toko fisik.</p>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <img src="https://i.imgur.com/uJRyUgN.png" alt="Fotografi Budaya">
+                    <div class="grid-item-content">
+                        <h3>Website Berita </h3>
+                        <p>Website berita yang menyajikan informasi terbaru, akurat, dan terpercaya setiap hari.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="kuliner">
+            <h2>🍜 Kuliner Khas Cirebon yang Legendaris</h2>
+            <p>Siapkan lidah Anda untuk cita rasa yang kaya, dari pedas, gurih, hingga manis. Inilah beberapa hidangan utama dan oleh-oleh wajib bawa pulang!</p>
+            
+            <div class="grid-container">
+                <div class="grid-item">
+                    <img src="https://i.imgur.com/k2JIK8D.jpeg" alt="Empal Gentong">
+                    <div class="grid-item-content">
+                        <h3>Empal Gentong</h3>
+                        <p>Gulai daging sapi/kerbau berkuah santan kental, dimasak dalam gentong tanah liat.</p>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <img src="https://i.imgur.com/2ZZspKe.jpeg" alt="Nasi Jamblang">
+                    <div class="grid-item-content">
+                        <h3>Nasi Jamblang</h3>
+                        <p>Nasi yang dibungkus daun jati, disajikan dengan beragam lauk pauk sederhana.</p>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <img src="https://i.imgur.com/wcVROqT.jpeg" alt="Tahu Gejrot">
+                    <div class="grid-item-content">
+                        <h3>Tahu Gejrot</h3>
+                        <p>Tahu goreng dengan bumbu khas bawang, cabai, gula merah, dan kuah asam manis pedas.</p>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <img src="https://i.imgur.com/AwYY9dv.jpeg" alt="Nasi Lengko">
+                    <div class="grid-item-content">
+                        <h3>Nasi Lengko</h3>
+                        <p>Nasi dengan tauge, timun, tahu, tempe, siraman bumbu kacang, dan kecap.</p>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <img src="https://i.imgur.com/EWXLApw.jpeg" alt="Kerupuk Melarat">
+                    <div class="grid-item-content">
+                        <h3>Kerupuk Melarat</h3>
+                        <p>Kerupuk yang digoreng tanpa minyak (disangrai) menggunakan pasir, khas Cirebon.</p>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <img src="https://i.imgur.com/gv6RAiY.jpeg" alt="Sirup Tjampolay">
+                    <div class="grid-item-content">
+                        <h3>Sirup Tjampolay</h3>
+                        <p>Sirup legendaris Cirebon yang dibuat sejak tahun 1936, terkenal dengan varian rasa buah-buahan unik.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Hidangan Penutup dan Oleh-oleh</h3>
+            <p>Selain empat hidangan utama, jangan lewatkan oleh-oleh ikonik Kerupuk Melarat dan Sirup Tjampolay untuk dibawa pulang sebagai kenang-kenangan dari Kota Udang.</p>
+        </section>
+
+        <section id="sejarah">
+            <h2>📜 Sejarah dan Asal-usul Cirebon</h2>
+            <p>Cirebon berawal dari sebuah pemukiman kecil bernama Caruban yang tumbuh sebagai pusat perdagangan di pesisir utara Jawa. Keberadaan berbagai pedagang dari Sunda dan Jawa menjadikan wilayah ini sebagai tempat percampuran budaya. Perkembangan Caruban semakin pesat setelah kedatangan para tokoh penting seperti Syekh Datuk Kahfi, Pangeran Cakrabuana, dan Sunan Gunung Jati yang kemudian mendirikan Kesultanan Cirebon. Dari sinilah Cirebon berkembang menjadi kota pelabuhan yang berperan besar dalam penyebaran Islam dan terbentuknya identitas budaya yang khas.</p>
+            <p>Beberapa aspek sejarah yang ikut membangun karakter Cirebon meliputi :</p>
+            
+            <div class="grid-container">
+                <div class="grid-item">
+                    <img src="https://i.imgur.com/FbuG4X3.jpeg" alt="Sunan Gunung Jati">
+                    <div class="grid-item-content">
+                        <h3>Sunan Gunung Jati</h3>
+                        <p>Syarif Hidayatullah, salah satu dari Wali Songo, pendiri Kesultanan Cirebon dan penyebar Islam di Jawa Barat.</p>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <img src="https://i.imgur.com/KtloGZM.jpeg" alt="Keraton Kasepuhan">
+                    <div class="grid-item-content">
+                        <h3>Keraton Kasepuhan</h3>
+                        <p>Keraton tertua dan paling bersejarah di Cirebon, menjadi pusat pemerintahan dan budaya kesultanan.</p>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <img src="https://i.imgur.com/COJvCuw.jpeg" alt="Pelabuhan Cirebon Dulu">
+                    <div class="grid-item-content">
+                        <h3>Cirebon Kota Pelabuhan</h3>
+                        <p>Peran Cirebon sebagai pelabuhan strategis yang menghubungkan berbagai peradaban dan budaya.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Dua Nama, Satu Kisah</h3>
+            <p>Istilah "Cirebon" (dari *cai* rebon/air udang) dan "Grage" (nama lain Cirebon) menggambarkan dualitas kota sebagai produsen laut dan pusat pemerintahan besar.</p>
+        </section>
+
+        <section id="keagamaan">
+            <h2>🕌 Cirebon: Simpul Keagamaan dan Kerukunan</h2>
+            <p>Kota yang menjadi saksi bisu penyebaran Islam dan menjunjung tinggi toleransi.</p>
+            
+            <div class="grid-container">
+                <div class="grid-item">
+                    <img src="https://i.imgur.com/NQBsH2y.jpeg" alt="Makam Sunan Gunung Jati">
+                    <div class="grid-item-content">
+                        <h3>Makam Sunan Gunung Jati</h3>
+                        <p>Situs ziarah utama yang menjadi makam salah satu Wali Songo.</p>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <img src="https://i.imgur.com/oMzeKW4.jpeg" alt="Vihara Dewi Welas Asih">
+                    <div class="grid-item-content">
+                        <h3>Vihara Dewi Welas Asih</h3>
+                        <p>Salah satu vihara tertua di Cirebon, simbol kerukunan antarumat beragama.</p>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <img src="https://i.imgur.com/fEeIskR.jpeg" alt="Masjid Agung Sang Cipta Rasa">
+                    <div class="grid-item-content">
+                        <h3>Masjid Agung Sang Cipta Rasa</h3>
+                        <p>Masjid bersejarah yang dibangun pada masa Kesultanan Cirebon, kaya akan arsitektur kuno.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Sinergi Budaya</h3>
+            <p>Toleransi beragama di Cirebon sangat kuat, dibuktikan dengan keberadaan berbagai rumah ibadah yang hidup berdampingan.</p>
+        </section>
+
+        <section id="pariwisata">
+            <h2>🏖️ Panduan Pariwisata Lengkap Cirebon</h2>
+            <p>Rencanakan perjalanan Anda dan nikmati semua yang ditawarkan Cirebon.</p>
+            
+            <div class="grid-container">
+                <div class="grid-item">
+                    <img src="https://i.imgur.com/K2MDT69.jpeg" alt="Keraton Kanoman">
+                    <div class="grid-item-content">
+                        <h3>Keraton Kanoman</h3>
+                        <p>Keraton dengan arsitektur unik dan koleksi benda bersejarah yang menarik.</p>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <img src="https://i.imgur.com/InodvsQ.jpeg" alt="Gua Sunyaragi">
+                    <div class="grid-item-content">
+                        <h3>Gua Sunyaragi</h3>
+                        <p>Kompleks gua buatan dengan desain menyerupai gunung dan tebing karang.</p>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <img src="https://i.imgur.com/A40guTq.jpeg" alt="Batik Trusmi">
+                    <div class="grid-item-content">
+                        <h3>Sentra Batik Trusmi</h3>
+                        <p>Pusat produksi dan penjualan batik khas Cirebon, terutama motif Mega Mendung.</p>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <img src="https://i.imgur.com/Pkszo7Y.jpeg" alt="Pantai Kejawanan">
+                    <div class="grid-item-content">
+                        <h3>Pantai Kejawanan</h3>
+                        <p>Pantai landai yang cocok untuk rekreasi keluarga dengan pemandangan kapal nelayan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="kontak">
+            <h2>✉️ Kirim Pesan kepada Kami</h2>
+            <p>Punya pertanyaan, saran, atau ingin berkolaborasi? Jangan ragu untuk menghubungi tim pengembang web ini.</p>
+            
+            <form id="contactForm" class="contact-form">
+                <div>
+                    <label for="nama">Nama Lengkap</label>
+                    <input type="text" id="nama" name="nama" placeholder="Masukkan nama Anda" required>
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Masukkan alamat email aktif" required>
+                </div>
+                <div>
+                    <label for="pesan">Pesan Anda</label>
+                    <textarea id="pesan" name="pesan" placeholder="Tuliskan pesan Anda di sini..." required></textarea>
+                </div>
+                <div>
+                    <button type="submit">Kirim Pesan</button>
+                </div>
+
+                <div id="status-message"></div>
+
+            </form>
+        </section>
+        
+    </main>
+
+    <footer>
+        <p>Diprakarsai oleh Pecinta Budaya Cirebon | Khusnah Qurrotul A'eni.</p>
+        <p>Kontak Email: khusnahqa@gmail.com</p>
+    </footer>
+
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const statusMessage = document.getElementById('status-message');
+            
+            statusMessage.classList.remove('success');
+            statusMessage.textContent = '';
+            
+            setTimeout(function() {
+                statusMessage.textContent = "✅ Pesan Anda berhasil dikirim! Kami akan merespons secepatnya.";
+                statusMessage.classList.add('success');
+                
+                document.getElementById('contactForm').reset();
+
+                setTimeout(function() {
+                    statusMessage.classList.remove('success');
+                    statusMessage.style.opacity = '0';
+                }, 5000); 
+                
+            }, 500); 
+        });
+    </script>
+
+</body>
+</html>
